@@ -12,7 +12,6 @@ pipeline {
         stage('Maven Build') {
             steps {
                 echo 'Building Spring Boot application using Maven'
-
                 dir('app') {
                     sh 'mvn clean package'
                 }
@@ -22,11 +21,7 @@ pipeline {
         stage('Archive Artifact') {
             steps {
                 echo 'Archiving generated JAR file'
-
-                archiveArtifacts(
-                    artifacts: 'app/target/*.jar',
-                    fingerprint: true
-                    )
+                archiveArtifacts artifacts: 'app/target/*.jar', fingerprint: true
             }
         }
     }
@@ -40,5 +35,4 @@ pipeline {
             echo 'Pipeline failed.'
         }
     }
-}
 }

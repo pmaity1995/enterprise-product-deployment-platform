@@ -24,6 +24,12 @@ pipeline {
                 archiveArtifacts artifacts: 'app/target/*.jar', fingerprint: true
             }
         }
+        stage('Docker Build') {
+            steps {
+                echo 'Building Docker image'
+                sh 'docker build -t enterprise-product-app:latest -f product-docker/Dockerfile .'
+            }
+}
     }
 
     post {

@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code from GitHub'
+                checkout scm
+            }
+        }
+
+        stage('Maven Build') {
+            steps {
+                echo 'Building Spring Boot application using Maven'
+
+                dir('app') {
+                    sh 'mvn clean package'
+                }
+            }
+        }
+
+        stage('Archive Artifact') {
+            steps {
+                echo 'Archiving generated JAR file'
+
+                archiveArtifacts(
+                    artifacts: 'app/target/*.jar',
+                    fingerprint: true
+                    )
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
+}

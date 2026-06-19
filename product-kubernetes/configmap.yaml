@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: enterprise-product-config
+data:
+  APP_NAME: "enterprise-product-app"
+  ENVIRONMENT: "dev"

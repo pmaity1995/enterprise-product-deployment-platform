@@ -1,17 +1,22 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_REGION = 'us-east-1'
+        ECR_REPO = '484826611947.dkr.ecr.us-east-1.amazonaws.com/enterprise-product-app'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
-                echo 'Checking out source code from GitHub'
                 checkout scm
             }
         }
 
         stage('Maven Build') {
             steps {
-                echo 'Building Spring Boot application using Maven'
                 dir('app') {
                     sh 'mvn clean package'
                 }
@@ -20,19 +25,39 @@ pipeline {
 
         stage('Archive Artifact') {
             steps {
-                echo 'Archiving generated JAR file'
-                archiveArtifacts artifacts: 'app/target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: 'app/target/*.jar'
             }
         }
-    }
 
-    post {
-        success {
-            echo 'Pipeline completed successfully.'
+        stage('Docker Build') {
+            steps {
+                sh '''
+                docker build \
+                -t enterprise-product-app:${IMAGE_TAG} \
+                -f product-docker/Dockerfile .
+                '''
+            }
         }
 
-        failure {
-            echo 'Pipeline failed.'
+        stage('ECR Login') {
+            steps {
+                sh '''
+                aws ecr get-login-password --region ${AWS_REGION} | \
+                docker login --username AWS \
+                --password-stdin ${ECR_REPO}
+                '''
+            }
+        }
+
+        stage('Push To ECR') {
+            steps {
+                sh '''
+                docker tag enterprise-product-app:${IMAGE_TAG} \
+                ${ECR_REPO}:${IMAGE_TAG}
+
+                docker push ${ECR_REPO}:${IMAGE_TAG}
+                '''
+            }
         }
     }
 }

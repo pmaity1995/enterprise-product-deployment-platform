@@ -8,7 +8,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -20,6 +19,32 @@ pipeline {
                 dir('app') {
                     sh 'mvn clean package'
                 }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                dir('app') {
+                    withSonarQubeEnv('SonarQube') {
+                        sh '''
+                        mvn sonar:sonar \
+                        -Dsonar.projectKey=enterprise-product-app \
+                        -Dsonar.projectName=enterprise-product-app
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Retrieve Secret From AWS Secrets Manager') {
+            steps {
+                sh '''
+                aws secretsmanager get-secret-value \
+                --secret-id enterprise-product-db-password \
+                --region ${AWS_REGION} \
+                --query SecretString \
+                --output text
+                '''
             }
         }
 

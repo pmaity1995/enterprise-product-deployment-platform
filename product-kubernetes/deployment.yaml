@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: enterprise-product-app
-          image: 484826611947.dkr.ecr.us-east-1.amazonaws.com/enterprise-product-app:5
+          image: 484826611947.dkr.ecr.us-east-1.amazonaws.com/enterprise-product-app: 22
           ports:
             - containerPort: 8080
           env:

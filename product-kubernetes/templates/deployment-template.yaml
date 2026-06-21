@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enterprise-product-app
+  namespace: ${NAMESPACE}
+spec:
+  replicas: ${REPLICAS}
+  selector:
+    matchLabels:
+      app: enterprise-product-app
+  template:
+    metadata:
+      labels:
+        app: enterprise-product-app
+    spec:
+      containers:
+        - name: enterprise-product-app
+          image: 484826611947.dkr.ecr.us-east-1.amazonaws.com/enterprise-product-app:${IMAGE_TAG}
+          ports:
+            - containerPort: 8080

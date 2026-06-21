@@ -15,6 +15,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
 fi
 
 source "$CONFIG_FILE"
+IMAGE_TAG=${OVERRIDE_IMAGE_TAG:-$IMAGE_TAG}
 export NAMESPACE REPLICAS IMAGE_TAG NODE_PORT
 
 mkdir -p product-kubernetes/rendered/$ENV

@@ -101,7 +101,7 @@ pipeline {
 
                 chmod +x product-deployment-pipeline/scripts/render-deployment.sh
 
-                sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${IMAGE_TAG}/" product-kubernetes/environments/${DEPLOY_ENV}.properties
+                OVERRIDE_IMAGE_TAG=${IMAGE_TAG} 
 
                 ./product-deployment-pipeline/scripts/render-deployment.sh ${DEPLOY_ENV}
 

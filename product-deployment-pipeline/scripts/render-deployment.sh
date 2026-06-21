@@ -15,6 +15,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
 fi
 
 source "$CONFIG_FILE"
+export NAMESPACE REPLICAS IMAGE_TAG NODE_PORT
 
 mkdir -p product-kubernetes/rendered/$ENV
 

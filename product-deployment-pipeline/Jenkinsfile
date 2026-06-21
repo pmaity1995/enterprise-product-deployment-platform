@@ -101,9 +101,10 @@ pipeline {
 
                 chmod +x product-deployment-pipeline/scripts/render-deployment.sh
 
-                OVERRIDE_IMAGE_TAG=${IMAGE_TAG} 
-
+                OVERRIDE_IMAGE_TAG=${IMAGE_TAG} \
                 ./product-deployment-pipeline/scripts/render-deployment.sh ${DEPLOY_ENV}
+
+                aws eks update-kubeconfig --region ${AWS_REGION} --name enterprise-product-eks
 
                 kubectl create namespace ${DEPLOY_ENV} --dry-run=client -o yaml | kubectl apply -f -
 

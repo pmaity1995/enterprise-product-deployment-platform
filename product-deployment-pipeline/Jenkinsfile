@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(
+            name: 'DEPLOY_ENV',
+            choices: ['dev', 'qa', 'prod'],
+            description: 'Select target deployment environment'
+        )
+    }
+
     environment {
         AWS_REGION = 'us-east-1'
         ECR_REPO = '484826611947.dkr.ecr.us-east-1.amazonaws.com/enterprise-product-app'
@@ -81,6 +89,30 @@ pipeline {
                 ${ECR_REPO}:${IMAGE_TAG}
 
                 docker push ${ECR_REPO}:${IMAGE_TAG}
+                '''
+            }
+        }
+
+        stage('Deploy To Selected Environment') {
+            steps {
+                sh '''
+                echo "Deploying to environment: ${DEPLOY_ENV}"
+                echo "Using image tag: ${IMAGE_TAG}"
+
+                chmod +x product-deployment-pipeline/scripts/render-deployment.sh
+
+                sed -i "s/^IMAGE_TAG=.*/IMAGE_TAG=${IMAGE_TAG}/" product-kubernetes/environments/${DEPLOY_ENV}.properties
+
+                ./product-deployment-pipeline/scripts/render-deployment.sh ${DEPLOY_ENV}
+
+                kubectl create namespace ${DEPLOY_ENV} --dry-run=client -o yaml | kubectl apply -f -
+
+                kubectl apply -f product-kubernetes/rendered/${DEPLOY_ENV}/
+
+                kubectl rollout status deployment/enterprise-product-app -n ${DEPLOY_ENV}
+
+                kubectl get pods -n ${DEPLOY_ENV}
+                kubectl get svc -n ${DEPLOY_ENV}
                 '''
             }
         }

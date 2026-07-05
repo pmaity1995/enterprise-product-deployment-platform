@@ -94,14 +94,16 @@ Result
 
 Trusted Advisor was successfully accessed and reviewed. Due to support plan limitations, detailed cost optimization recommendations were unavailable.
 
-6. Before vs After Cost Comparison
-Without Optimization	With Optimization
-On-Demand EC2 only	Spot Instances
-Manual Scaling	Automatic Scaling
-Fixed Infrastructure Cost	Pay for Required Capacity Only
-Higher Compute Cost	Lower Compute Cost
-Manual Resource Monitoring	Automatic Scaling & Monitoring
-No Cost Alerts	Cost Anomaly Detection Enabled
+6. Before                    vs             After Cost Comparison
+
+Without Optimization	                      With Optimization
+On-Demand EC2 only	                           Spot Instances
+Manual Scaling	                             Automatic Scaling
+Fixed Infrastructure Cost	            Pay for Required Capacity Only
+Higher Compute Cost	                          Lower Compute Cost
+Manual Resource Monitoring	            Automatic Scaling & Monitoring
+No Cost Alerts	                         Cost Anomaly Detection Enabled
+
 7. Cost Savings Achieved
 
 The implemented architecture reduces operational costs through:

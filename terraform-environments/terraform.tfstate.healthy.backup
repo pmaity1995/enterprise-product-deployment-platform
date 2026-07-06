@@ -1,0 +1,57 @@
+{
+  "version": 4,
+  "terraform_version": "1.15.6",
+  "serial": 2,
+  "lineage": "c530168c-f1c3-07bc-75f9-5998c4bc7576",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_ssm_parameter",
+      "name": "dr_strategy",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "allowed_pattern": "",
+            "arn": "arn:aws:ssm:us-east-1:484826611947:parameter/enterprise-product/dr/strategy",
+            "data_type": "text",
+            "description": "",
+            "has_value_wo": false,
+            "id": "/enterprise-product/dr/strategy",
+            "insecure_value": null,
+            "key_id": "",
+            "name": "/enterprise-product/dr/strategy",
+            "overwrite": null,
+            "tags": {},
+            "tags_all": {},
+            "tier": "Standard",
+            "type": "String",
+            "value": "Terraform remote state enabled with S3 versioning for disaster recovery",
+            "value_wo": null,
+            "value_wo_version": null,
+            "version": 1
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "value"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "value_wo"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjAifQ=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}

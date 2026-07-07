@@ -10,7 +10,7 @@ pipeline {
     }
 
     environment {
-        AWS_REGION = 'us-east-1'
+        AWS_REGION = 'eus-east-1'
         ECR_REPO = '484826611947.dkr.ecr.us-east-1.amazonaws.com/enterprise-product-app'
         IMAGE_TAG = "${BUILD_NUMBER}"
     }

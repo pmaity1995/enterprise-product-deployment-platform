@@ -182,3 +182,23 @@ Linux Administration
 Disaster Recovery
 Cloud Monitoring
 Incident Management
+## Disaster Recovery Validation
+
+### Disaster Simulation
+- Created an RDS MySQL database.
+- Created the `employees` table and inserted sample records.
+- Created a manual snapshot (`pre-disaster-demo`).
+- Simulated a disaster by deleting the original RDS instance.
+- Restored a new RDS instance from the snapshot.
+- Connected to the restored database and verified all records.
+
+### Recovery Metrics
+
+| Metric | Measured Value |
+|---------|----------------|
+| RTO | 9 minutes 36 seconds |
+| RPO | 0 minutes (no data loss) |
+
+### Validation Result
+
+The restored database contained all records from the original database, demonstrating successful snapshot-based disaster recovery with zero data loss.
